@@ -1,0 +1,137 @@
+---
+title: "Data 607 Assignment 3"
+author: "Jayden Jiang"
+date: "2025-02-20"
+output: html_document
+---
+
+```{r}
+library(dplyr)
+library(stringr)
+library(readr)
+```
+
+### Normalization
+```{r}
+# Create dataframe
+car_sales <- data.frame(
+  customer_name = c("John", "Sharon", "Shirley", "Daniel", "Jay"),
+  customer_phone = c("111-2222", "111-3333", "111-4444", "111-5555", "111-6666"),
+  car_vin = c("VIN001", "VIN002", "VIN003", "VIN004", "VIN005"),
+  car_make = c("Mazeda", "Honda", "Lexus", "Tesla", "Benz"),
+  car_model = c("CX-5", "CRV", "RX-350", "Model-Y", "GLE"),
+  car_year = c("2020", "2019", "2024", "2023", "2023"),
+  salesperson_name = c("Evan T.", "Fiona W.", "George K.", "Jessica W.", "Paige E."),
+  sale_date = as.Date(c("2025-01-28", "2025-01-28", "2025-01-28", "2025-01-28", "2025-01-28")),
+  sale_price = c(20000, 18000, 50000, 35000, 56000)
+)
+print(car_sales)
+```
+
+```{r}
+# Customer Table
+customers <- car_sales %>%
+  select(customer_name, customer_phone) %>%
+  distinct()
+
+print(customers)
+```
+```{r}
+# Cars Table
+cars <- car_sales %>%
+  select(car_vin, car_make, car_model, car_year) %>%
+  distinct()
+
+print(cars)
+```
+```{r}
+# Sales Table
+sales <- car_sales %>%
+  select(customer_name, customer_phone, car_vin, salesperson_name, sale_date, sale_price)
+
+print(sales)
+```
+### Character Manipulation
+```{r}
+majors_data <- read.csv("https://raw.githubusercontent.com/JaydeeJan/Data-607-Assignment-3/refs/heads/main/majors-list.csv")
+
+data_stats_majors <- majors_data %>%
+  filter(str_detect(Major, regex("DATA|STATISTICS", ignore_case = TRUE)))
+
+print(data_stats_majors)
+```
+
+### Describe, in words, what these expressions will match:
+
+### (.)\1\1
+
+#### 1. (.) - will match any single character in first group
+
+#### 2. \1 - refers to the match contained in the first parenthesis
+
+#### 3. \1\1 - character repeated two or more times. 
+
+
+### "(.)(.)\\2\\1"
+
+#### 1. (.)(.) - will match any single character in first group and second group
+
+#### 2. \\2 refers to the match contained in the second parenthesis
+
+#### 3. \\1 refers to the match contained in the first parenthesis
+
+
+### (..)\1
+
+#### 1. (..) - match with two characters
+
+#### 2. \1 - refers to the match contained in the first parenthesis
+
+
+### "(.).\\1.\\1"
+
+#### 1. (.) -  will match any single character in first group
+
+#### 2. . - match any character
+
+#### 3. \\1 - refers to the match contained in the first parenthesis
+
+#### 4. . - match any character
+
+#### 5. \\1 - refers to the match contained in the first parenthesis
+
+
+### "(.)(.)(.).*\\3\\2\\1"
+
+#### 1. (.) - will match any single character in first group
+
+#### 2. (.) - will match any single character in second group
+
+#### 3. (.) - will match any single character in third group
+
+#### 4. .* - will match any sequence of characters
+
+#### 5. \\3 - refers to the match contained in the third parenthesis
+
+#### 6. \\2 - refers to the match contained in the second parenthesis
+
+#### 7. \\1 - refers to the match contained in the first parenthesis
+
+
+
+### Construct regular expressions to match words that:
+
+#### Start and end with the same character.
+
+#### (.)\1
+
+#### Contain a repeated pair of letters (e.g. "church" contains "ch" repeated twice.)
+
+#### "(..).*\\1"
+
+#### Contain one letter repeated in at least three places (e.g. "eleven" contains three "e"s.)
+
+#### "(.)\\1.*\\1"
+
+
+
